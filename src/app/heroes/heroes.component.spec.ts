@@ -22,13 +22,19 @@ describe('HeroesComponent', () => {
 
   describe('delete', () => {
 
-    it('should remove the indicated hero from the heroes list', () => {
+    it('should only remove the indicated hero from the heroes list', () => {
       mockHeroService.deleteHero.and.returnValue(of(true));
       component.heroes = heroes;
 
       component.delete(heroes[2]);
 
-      expect(component.heroes.length).toBe(2);
+      // expect(compoenent.heroes.length).toBe(2);
+
+      expect(component.heroes.includes(heroes[2])).toBeFalsy();
+      expect(
+        component.heroes.includes(heroes[0]) &&
+        component.heroes.includes(heroes[1])
+      ).toBeTruthy();
     });
 
     it('should call deleteHero', () => {
