@@ -1,6 +1,6 @@
-import { TestBed, ComponentFixture } from "@angular/core/testing";
-import { HeroComponent } from "./hero.component";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { HeroComponent } from './hero.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('HeroComponent (shallow tests)', () => {
   let fixture: ComponentFixture<HeroComponent>;
