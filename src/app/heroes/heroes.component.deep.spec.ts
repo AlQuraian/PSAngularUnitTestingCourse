@@ -50,7 +50,43 @@ describe('HeroesComponent (deep tests)', () => {
     heroComponents.forEach((hero, i) => {
       expect(hero.componentInstance.hero).toEqual(heroes[i]);
     });
+  });
 
+  it(`should call heroService.deleteHero when the Hero Component's
+  delete button us clicked`, () => {
+      spyOn(fixture.componentInstance, 'delete');
+      mockHeroService.getHeroes.and.returnValue(of(heroes));
+
+      // run ngOnInit
+      fixture.detectChanges();
+
+      const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+
+      // heroComponents[0].query(By.css('button'))
+      //   .triggerEventHandler('click', { stopPropagation: () => { } });
+
+      // heroComponents[0].triggerEventHandler('delete', undefined);
+
+      // all above and this are the same for triggering events
+      (heroComponents[0].componentInstance as HeroComponent).delete.emit();
+
+      expect(fixture.componentInstance.delete).toHaveBeenCalledWith(heroes[0]);
+    });
+
+  it('should add a new hero to the hero list when the add button is clicked', () => {
+    mockHeroService.getHeroes.and.returnValue(of(heroes));
+    fixture.detectChanges();
+    mockHeroService.addHero.and.returnValue(of({ id: 5, name, strength: 4 }));
+    const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+    const addButton = fixture.debugElement.queryAll(By.css('button'))[0];
+
+    inputElement.value = name;
+    addButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    // contains all html code of child components
+    const heroText = fixture.debugElement.query(By.css('ul')).nativeElement.textContent;
+    expect(heroText).toContain(name);
   });
 
 });
