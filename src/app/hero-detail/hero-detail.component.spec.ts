@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, flush, fakeAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -39,4 +39,25 @@ describe('HeroDetailComponent', () => {
 
     expect(fixture.nativeElement.querySelector('h2').textContent).toContain(hero.name.toUpperCase());
   });
+
+  it('should call updateHero when save is called', fakeAsync(() => {
+    mockHeroService.updateHero.and.returnValue(of({}));
+    fixture.detectChanges();
+
+    fixture.componentInstance.save();
+    flush();
+
+    expect(mockHeroService.updateHero).toHaveBeenCalled();
+  }));
+
+  // it('should call updateHero when save is called', async(() => {
+  //   mockHeroService.updateHero.and.returnValue(of({}));
+  //   fixture.detectChanges();
+
+  //   fixture.componentInstance.save();
+
+  //   fixture.whenStable().then(() => {
+  //     expect(mockHeroService.updateHero).toHaveBeenCalled();
+  //   });
+  // }))
 });
